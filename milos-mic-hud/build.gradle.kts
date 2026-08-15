@@ -10,6 +10,10 @@ repositories {
     maven {
         url = uri("https://maven.uku3lig.net/releases")
     }
+    maven {
+        name = "MaxHenkel"
+        url = uri("https://maven.maxhenkel.de/repository/public")
+    }
 }
 
 dependencies {
@@ -18,6 +22,8 @@ dependencies {
     modImplementation("net.fabricmc:fabric-loader:${project.property("loader_version")}")
 
     modApi("net.uku3lig:ukulib:${project.property("ukulib_version")}")
+
+    modCompileOnly("de.maxhenkel.voicechat:voicechat-api:${project.property("voicechat_api_version")}")
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.11.0")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")

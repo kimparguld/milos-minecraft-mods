@@ -19,6 +19,9 @@
     ],
     "ukulib": [
       "ru.berdinskiybear.michud.config.UkulibIntegration"
+    ],
+    "voicechat": [
+      "ru.berdinskiybear.michud.compat.SimpleVoiceChatCompat"
     ]
   },
   "mixins": [
@@ -28,5 +31,8 @@
     "minecraft": ">=1.21.11",
     "fabricloader": ">=0.17",
     "ukulib": "^1.10.0"
+  },
+  "recommends": {
+    "voicechat": "*"
   }
 }
