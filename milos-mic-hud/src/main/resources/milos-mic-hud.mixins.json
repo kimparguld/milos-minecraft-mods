@@ -3,7 +3,9 @@
   "package": "ru.berdinskiybear.michud.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [],
-  "client": [],
+  "client": [
+    "MixinGui"
+  ],
   "server": [],
   "injectors": {
     "defaultRequire": 1
