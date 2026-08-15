@@ -18,6 +18,9 @@ dependencies {
     modImplementation("net.fabricmc:fabric-loader:${project.property("loader_version")}")
 
     modApi("net.uku3lig:ukulib:${project.property("ukulib_version")}")
+
+    testImplementation("org.junit.jupiter:junit-jupiter:5.11.0")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 base {
@@ -46,4 +49,8 @@ tasks.jar {
     from("LICENSE") {
         rename { "${it}_${project.base.archivesName.get()}" }
     }
+}
+
+tasks.test {
+    useJUnitPlatform()
 }
