@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "id": "milos-fast-xp",
+  "version": "${version}",
+  "name": "Milo's Fast XP",
+  "description": "Speed up how fast you gain and pick up XP, with an optional auto-throw for projectiles. Originally two mods (fast-xp by Shikaru, fastexppickup by Donbarz). Forked and merged by Milo.",
+  "authors": [
+    "Shikaru",
+    "Donbarz",
+    "Milo"
+  ],
+  "contact": {
+    "homepage": "https://github.com/kimparguld/milos-mods",
+    "issues": "https://github.com/kimparguld/milos-mods/issues"
+  },
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "ru.berdinskiybear.fastxp.FastXpMod"
+    ],
+    "client": [
+      "ru.berdinskiybear.fastxp.client.FastXpClient"
+    ],
+    "ukulib": [
+      "ru.berdinskiybear.fastxp.config.UkulibIntegration"
+    ]
+  },
+  "mixins": [
+    "milos-fast-xp.mixins.json"
+  ],
+  "depends": {
+    "minecraft": ">=1.21.11",
+    "fabricloader": ">=0.17",
+    "fabric-api": "*"
+  },
+  "recommends": {
+    "ukulib": "^1.10.0"
+  },
+  "breaks": {
+    "fast-xp": "*",
+    "fastexppickup": "*"
+  }
+}

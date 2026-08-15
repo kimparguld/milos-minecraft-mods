@@ -1,0 +1,16 @@
+{
+  "fastxp.config": "Milo's Fast XP",
+  "fastxp.option.xpCreationEnabled": "Speed Up XP Gain",
+  "fastxp.option.xpCreationMultiplier": "XP Gain Multiplier",
+  "fastxp.option.xpPickupEnabled": "Speed Up XP Pickup",
+  "fastxp.option.xpPickupOrbsPerTick": "Orbs Picked Up per Tick",
+  "fastxp.option.autoThrowEnabled": "Auto-Throw Projectiles",
+  "fastxp.option.autoThrowDelayTicks": "Auto-Throw Delay (ticks)",
+  "fastxp.option.projectile.snowball": "Snowball",
+  "fastxp.option.projectile.egg": "Egg",
+  "fastxp.option.projectile.ender_pearl": "Ender Pearl",
+  "fastxp.option.projectile.splash_potion": "Splash Potion",
+  "fastxp.option.projectile.lingering_potion": "Lingering Potion",
+  "fastxp.option.projectile.trident": "Trident",
+  "fastxp.option.projectile.experience_bottle": "Bottle o' Enchanting"
+}

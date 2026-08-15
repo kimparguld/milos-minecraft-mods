@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "ru.berdinskiybear.playerhighlight.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "MixinMinecraftGlow",
+    "MixinEntityTeamColor"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

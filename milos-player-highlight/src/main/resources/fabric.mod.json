@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "milos-player-highlight",
+  "version": "${version}",
+  "name": "Milo's Player Highlight",
+  "description": "Highlight specific players with a glowing, through-walls outline and, with Xaero's Minimap installed, a colored radar marker, whenever they're online on the same server.",
+  "authors": [
+    "Milo"
+  ],
+  "contact": {
+    "homepage": "https://github.com/kimparguld/milos-mods",
+    "issues": "https://github.com/kimparguld/milos-mods/issues"
+  },
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "main": [
+      "ru.berdinskiybear.playerhighlight.PlayerHighlightMod"
+    ],
+    "ukulib": [
+      "ru.berdinskiybear.playerhighlight.config.UkulibIntegration"
+    ]
+  },
+  "mixins": [
+    "milos-player-highlight.mixins.json",
+    "milos-player-highlight-xaero.mixins.json"
+  ],
+  "depends": {
+    "minecraft": ">=1.21.11",
+    "fabricloader": ">=0.17",
+    "ukulib": "^1.10.0"
+  },
+  "recommends": {
+    "xaerominimap": "*"
+  }
+}

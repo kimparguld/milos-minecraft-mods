@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "ru.berdinskiybear.fastxp.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "ExperienceOrbValueMixin",
+    "ExperienceOrbAccessor",
+    "ExperienceOrbInvoker",
+    "ExperienceOrbPickupMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
