@@ -1,3 +1,16 @@
 {
-  "key.category.milos-mic-hud.key": "Milo's Mic HUD"
+  "key.category.milos-mic-hud.key": "Milo's Mic HUD",
+  "michud.keybind.toggle": "Toggle Mic HUD",
+  "michud.keybind.toggle.msg": "Mic HUD toggled",
+  "michud.config": "Milo's Mic HUD config",
+  "michud.option.enabled": "Enabled",
+  "michud.option.anchor": "Anchor",
+  "michud.option.side": "Side",
+  "michud.option.offsetX": "X Offset",
+  "michud.option.offsetY": "Y Offset",
+  "michud.option.iconSize": "Icon Size",
+  "michud.option.topCenter": "Top Center",
+  "michud.option.top": "Top",
+  "michud.option.bottom": "Bottom",
+  "michud.option.hotbar": "Hotbar"
 }
