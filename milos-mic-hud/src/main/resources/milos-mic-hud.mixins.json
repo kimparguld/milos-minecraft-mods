@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "ru.berdinskiybear.michud.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [],
+  "client": [
+    "MixinGui"
+  ],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
