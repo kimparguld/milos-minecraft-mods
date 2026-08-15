@@ -22,6 +22,10 @@ import java.util.Optional;
 public final class IconLoader {
     private static final int BUNDLED_SIZE = 16;
 
+    // Render happens up to hundreds of times per second; there is no need to
+    // re-stat/re-read the override file more often than this. See I3.
+    private static final long THROTTLE_NANOS = 500_000_000L;
+
     private static final Map<MicState, Identifier> BUNDLED = new EnumMap<>(MicState.class);
 
     static {
@@ -33,6 +37,14 @@ public final class IconLoader {
 
     private static final Map<MicState, LoadedOverride> overrides = new EnumMap<>(MicState.class);
     private static final Map<MicState, FileTime> lastWarnedMtime = new EnumMap<>(MicState.class);
+    // Negative cache: the mtime of a file we already tried and failed to decode as a PNG,
+    // so we don't re-run the native decode every throttle tick until the file changes. See I2.
+    private static final Map<MicState, FileTime> lastFailedDecodeMtime = new EnumMap<>(MicState.class);
+
+    // Throttle bookkeeping for I3: last time (System.nanoTime()) the filesystem was
+    // actually checked for this state, and the result returned at that check.
+    private static final Map<MicState, Long> lastCheckNanos = new EnumMap<>(MicState.class);
+    private static final Map<MicState, IconTexture> lastResult = new EnumMap<>(MicState.class);
 
     private record LoadedOverride(Identifier id, DynamicTexture texture, FileTime mtime, int width, int height) {
     }
@@ -44,70 +56,104 @@ public final class IconLoader {
     }
 
     public static Path overridePath(MicState state) {
+        return overrideDir().resolve(state.name().toLowerCase(Locale.ROOT) + ".png");
+    }
+
+    public static Path overrideDir() {
         return FabricLoader.getInstance().getConfigDir()
                 .resolve(MicHudMod.MOD_ID)
-                .resolve("icons")
-                .resolve(state.name().toLowerCase(Locale.ROOT) + ".png");
+                .resolve("icons");
     }
 
     public static IconTexture resolve(MicState state) {
+        long now = System.nanoTime();
+        Long last = lastCheckNanos.get(state);
+        IconTexture cached = lastResult.get(state);
+        if (last != null && cached != null && (now - last) < THROTTLE_NANOS) {
+            return cached;
+        }
+
+        lastCheckNanos.put(state, now);
+        IconTexture result = resolveFromDisk(state);
+        lastResult.put(state, result);
+        return result;
+    }
+
+    private static IconTexture resolveFromDisk(MicState state) {
         Path file = overridePath(state);
         Optional<Path> valid = IconFileResolver.resolveValidOverride(file);
 
         if (valid.isEmpty()) {
             if (Files.isRegularFile(file)) {
-                warnOnce(state, file);
+                warnOnce(state, file, tryGetMtime(file), null);
             }
             evict(state);
             return bundled(state);
         }
 
-        try {
-            FileTime mtime = Files.getLastModifiedTime(file);
-            LoadedOverride cached = overrides.get(state);
-            if (cached != null && cached.mtime().equals(mtime)) {
-                return new IconTexture(cached.id(), cached.width(), cached.height());
-            }
-
-            NativeImage image;
-            try (InputStream in = Files.newInputStream(file)) {
-                image = NativeImage.read(in);
-            }
-
-            Identifier id = Identifier.fromNamespaceAndPath(MicHudMod.MOD_ID, "override/" + state.name().toLowerCase(Locale.ROOT));
-            DynamicTexture texture = new DynamicTexture(() -> "milos-mic-hud override " + state.name(), image);
-            Minecraft.getInstance().getTextureManager().register(id, texture);
-
-            if (cached != null) {
-                cached.texture().close();
-            }
-
-            overrides.put(state, new LoadedOverride(id, texture, mtime, image.getWidth(), image.getHeight()));
-            return new IconTexture(id, image.getWidth(), image.getHeight());
-        } catch (IOException e) {
-            log.warn("Failed to load mic HUD icon override for {} at {}, using default", state, file, e);
+        FileTime mtime = tryGetMtime(file);
+        if (mtime == null) {
+            // file disappeared between the isRegularFile check above and here
             evict(state);
             return bundled(state);
+        }
+
+        LoadedOverride cachedOverride = overrides.get(state);
+        if (cachedOverride != null && cachedOverride.mtime().equals(mtime)) {
+            return new IconTexture(cachedOverride.id(), cachedOverride.width(), cachedOverride.height());
+        }
+
+        if (mtime.equals(lastFailedDecodeMtime.get(state))) {
+            // Already tried and failed to decode this exact file version; don't
+            // re-attempt the native decode until the file actually changes.
+            evict(state);
+            return bundled(state);
+        }
+
+        NativeImage image;
+        try (InputStream in = Files.newInputStream(file)) {
+            image = NativeImage.read(in);
+        } catch (IOException e) {
+            lastFailedDecodeMtime.put(state, mtime);
+            warnOnce(state, file, mtime, e);
+            evict(state);
+            return bundled(state);
+        }
+
+        Identifier id = Identifier.fromNamespaceAndPath(MicHudMod.MOD_ID, "override/" + state.name().toLowerCase(Locale.ROOT));
+        DynamicTexture texture = new DynamicTexture(() -> "milos-mic-hud override " + state.name(), image);
+        // register() already closes/replaces whatever texture was previously registered
+        // at this id, so there is no need to separately close cachedOverride's texture.
+        Minecraft.getInstance().getTextureManager().register(id, texture);
+
+        overrides.put(state, new LoadedOverride(id, texture, mtime, image.getWidth(), image.getHeight()));
+        return new IconTexture(id, image.getWidth(), image.getHeight());
+    }
+
+    private static FileTime tryGetMtime(Path file) {
+        try {
+            return Files.getLastModifiedTime(file);
+        } catch (IOException e) {
+            return null;
         }
     }
 
-    private static void warnOnce(MicState state, Path file) {
-        try {
-            FileTime mtime = Files.getLastModifiedTime(file);
-            if (mtime.equals(lastWarnedMtime.get(state))) {
-                return;
-            }
-            lastWarnedMtime.put(state, mtime);
+    private static void warnOnce(MicState state, Path file, FileTime mtime, IOException decodeFailure) {
+        if (mtime == null || mtime.equals(lastWarnedMtime.get(state))) {
+            return;
+        }
+        lastWarnedMtime.put(state, mtime);
+        if (decodeFailure != null) {
+            log.warn("Failed to load mic HUD icon override for {} at {}, using default", state, file, decodeFailure);
+        } else {
             log.warn("Mic HUD icon override for {} at {} is not a valid PNG, using default", state, file);
-        } catch (IOException ignored) {
-            // file disappeared between the isRegularFile check and here; nothing to warn about
         }
     }
 
     private static void evict(MicState state) {
         LoadedOverride stale = overrides.remove(state);
         if (stale != null) {
-            stale.texture().close();
+            Minecraft.getInstance().getTextureManager().release(stale.id());
         }
     }
 
