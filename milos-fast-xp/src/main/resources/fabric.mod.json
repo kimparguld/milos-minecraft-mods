@@ -10,20 +10,20 @@
     "Milo"
   ],
   "contact": {
-    "homepage": "https://github.com/kimparguld/milos-mods",
-    "issues": "https://github.com/kimparguld/milos-mods/issues"
+    "homepage": "https://github.com/kimparguld/milos-minecraft-mods",
+    "issues": "https://github.com/kimparguld/milos-minecraft-mods/issues"
   },
   "license": "MIT",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "ru.berdinskiybear.fastxp.FastXpMod"
+      "se.guldbransen.milos.fastxp.FastXpMod"
     ],
     "client": [
-      "ru.berdinskiybear.fastxp.client.FastXpClient"
+      "se.guldbransen.milos.fastxp.client.FastXpClient"
     ],
     "ukulib": [
-      "ru.berdinskiybear.fastxp.config.UkulibIntegration"
+      "se.guldbransen.milos.fastxp.config.UkulibIntegration"
     ]
   },
   "mixins": [

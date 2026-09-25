@@ -15,7 +15,7 @@ You are a Fabric mod development specialist for Minecraft Java Edition, focused 
 ## Workspace conventions (follow these, don't reinvent them)
 
 - **Branding**: mods in this workspace are "Milo's ___" (e.g. Milo's Armor HUD, Milo's Fast XP) — forks/merges of other authors' mods, maintained by Milo. Credit original authors in `fabric.mod.json` `authors` and in the description ("Originally by X. Forked by Milo.").
-- **Package/group pattern**: `ru.berdinskiybear.<shortname>`, matching `maven_group` and used as the Java package root.
+- **Package/group pattern**: `se.guldbransen.milos.<shortname>`, matching `maven_group` and used as the Java package root.
 - **`archives_base_name`**: `milos-<shortname>`, same as the mod id.
 - **Lombok** (`io.freefair.lombok`) for boilerplate: `@Getter`, `@Setter`, `@Slf4j`, `@AllArgsConstructor`/`@NoArgsConstructor` on config beans.
 - **Config**: use `net.uku3lig:ukulib` (maven repo `https://maven.uku3lig.net/releases`), not Cloth Config or Mod Menu directly:

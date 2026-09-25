@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "ru.berdinskiybear.michud.mixin",
+  "package": "se.guldbransen.milos.michud.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [],
   "client": [

@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "id": "milos-armor-hud",
+  "version": "${version}",
+  "name": "Milo's Armor HUD",
+  "description": "This mod adds a minimalistic vanilla-like widget that shows your armor items and a warning if durability is low enough. Forked by uku. Further forked by Milo.",
+  "authors": [
+    "BerdinskiyBear",
+    "uku",
+    "Milo"
+  ],
+  "contributors": [
+    "AnAwesomGuy"
+  ],
+  "contact": {
+    "homepage": "https://github.com/kimparguld/milos-minecraft-mods",
+    "issues": "https://github.com/kimparguld/milos-minecraft-mods/issues"
+  },
+  "license": "MIT",
+  "icon": "assets/milos-armor-hud/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "main": [
+      "se.guldbransen.milos.armorhud.ArmorHudMod"
+    ],
+    "ukulib": [
+      "se.guldbransen.milos.armorhud.config.UkulibIntegration"
+    ]
+  },
+  "mixins": [
+    "milos-armor-hud.mixins.json"
+  ],
+  "depends": {
+    "minecraft": ">=1.21.11",
+    "fabricloader": ">=0.17",
+    "ukulib": "^1.10.0",
+    "fabric-resource-loader-v1": "*"
+  },
+  "breaks": {
+    "armor_hud": "*",
+    "ukus-armor-hud": "*"
+  }
+}

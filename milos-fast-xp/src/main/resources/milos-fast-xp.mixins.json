@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "ru.berdinskiybear.fastxp.mixin",
+  "package": "se.guldbransen.milos.fastxp.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "ExperienceOrbValueMixin",

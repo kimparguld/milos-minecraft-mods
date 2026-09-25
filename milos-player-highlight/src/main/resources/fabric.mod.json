@@ -8,17 +8,17 @@
     "Milo"
   ],
   "contact": {
-    "homepage": "https://github.com/kimparguld/milos-mods",
-    "issues": "https://github.com/kimparguld/milos-mods/issues"
+    "homepage": "https://github.com/kimparguld/milos-minecraft-mods",
+    "issues": "https://github.com/kimparguld/milos-minecraft-mods/issues"
   },
   "license": "MIT",
   "environment": "client",
   "entrypoints": {
     "main": [
-      "ru.berdinskiybear.playerhighlight.PlayerHighlightMod"
+      "se.guldbransen.milos.playerhighlight.PlayerHighlightMod"
     ],
     "ukulib": [
-      "ru.berdinskiybear.playerhighlight.config.UkulibIntegration"
+      "se.guldbransen.milos.playerhighlight.config.UkulibIntegration"
     ]
   },
   "mixins": [

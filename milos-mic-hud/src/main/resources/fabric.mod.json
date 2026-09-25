@@ -8,20 +8,20 @@
     "Milo"
   ],
   "contact": {
-    "homepage": "https://github.com/kimparguld/milos-mods",
-    "issues": "https://github.com/kimparguld/milos-mods/issues"
+    "homepage": "https://github.com/kimparguld/milos-minecraft-mods",
+    "issues": "https://github.com/kimparguld/milos-minecraft-mods/issues"
   },
   "license": "MIT",
   "environment": "client",
   "entrypoints": {
     "main": [
-      "ru.berdinskiybear.michud.MicHudMod"
+      "se.guldbransen.milos.michud.MicHudMod"
     ],
     "ukulib": [
-      "ru.berdinskiybear.michud.config.UkulibIntegration"
+      "se.guldbransen.milos.michud.config.UkulibIntegration"
     ],
     "voicechat": [
-      "ru.berdinskiybear.michud.compat.MicHudVoicechatPlugin"
+      "se.guldbransen.milos.michud.compat.MicHudVoicechatPlugin"
     ]
   },
   "mixins": [

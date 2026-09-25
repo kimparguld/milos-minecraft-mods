@@ -1,8 +1,8 @@
 {
   "required": true,
-  "package": "ru.berdinskiybear.playerhighlight.mixin.xaero",
+  "package": "se.guldbransen.milos.playerhighlight.mixin.xaero",
   "compatibilityLevel": "JAVA_21",
-  "plugin": "ru.berdinskiybear.playerhighlight.mixin.xaero.XaeroMixinPlugin",
+  "plugin": "se.guldbransen.milos.playerhighlight.mixin.xaero.XaeroMixinPlugin",
   "client": [
     "MixinXaeroRadarRenderer"
   ],
